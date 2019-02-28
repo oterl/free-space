@@ -1,0 +1,8 @@
+General description of clustering algorithms
+https://en.wikipedia.org/wiki/Cluster_analysis
+
+General description of popular density-based algorithm DBSCAN
+https://en.wikipedia.org/wiki/DBSCAN
+
+Implementation of density-based clustering algorithms on javascript
+https://github.com/uhho/density-clustering

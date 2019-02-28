@@ -1,0 +1,105 @@
+---------------------------------- INTRODUCTION ------------------------------------------------
+Source information for the analysis is a 3D system of balls
+(atoms) {A}, where each ball is defined by its Cartesian coordinates
+and its radius.
+
+Balls do not intersect each
+other.
+
+We do not consider cases when one ball is
+located entirely within another one.
+
+An empty sphere can be tangent simultaneously to no more than
+four balls of the system.  
+	- four balls enouth to determine position and radius of another ball
+	- in real life its almost impossible that 4 balls touch another one at the
+	same time
+
+System has no borders
+
+We assume that system {A} does not contain small
+balls in the narrow gap between a pair of larger balls.
+
+----------------------------GEOMETRICAL CONFIGURATIONS (2,3,4 balls)-------------
+
+The geometric locus of points, equidistant from the surfaces of
+two balls i and j, is defined as Voronoi S-surface (Voronoi
+bisector, Voronoi hyperboloid) Hij.
+
+Geometric locus of points equidistant from the surfaces of three
+balls i, j, k is defined as Voronoi S-channel and is denoted as
+Cijk.
+It may be represented as a trajectory of movement of the
+center of an empty sphere (with a dynamic radius) simultaneously
+tangent to this set of three balls.
+S-channel is the common line of intersection of all the three Voronoi
+hyperboloids (Hij, Hik, and Hjk) of pairs of these balls.
+
+Properties of s-channel:
+	Voronoi S-channel is simply-connected line. It can be
+	either nonclosed, i.e., with endpoints extended into infinity, or
+	closed.
+	For equal balls, Voronoi S-channel is apparently a
+	straight line
+	
+Three types of s-channel configurations may be distinguished:
+	1. Planar, with nonclosed channel; 
+	2. Nonplanar, with closed channel, without a tangential plane. 
+	3. Configurations without S-channel.
+	
+Bottleneck is the point, where radius of s-channel is minimal or maximal (apperently).
+
+A set of four balls in space specifically fixes the empty sphere tangent
+to all four balls in the space enclosed by the four balls.
+The center of this sphere is defined as Voronoi S-vertex for the given set of four
+spheres. Vijkl
+- s-vertex is a point
+
+S-vertex property: 
+	Exactly four Voronoi S-channels intersect in each Voronoi
+	S-vertex. 
+	
+There exist three principally different types of configurations of
+sets of fours balls.They are determined by the number of empty
+spheres that can be tangent to the balls of the given set of four:
+	1. Configurations of the first type (one inscribed sphere, one Voronoi
+	S-vertex) will be denoted as singlet.
+	
+	2. An example of a configuration with two inscribed empty
+	spheres would be the location of a relatively small ball between
+	a triplet of large balls
+	
+	Configurations of the third type (see Fig. 4c) are obtained when relatively small
+	balls ‘‘hide’’ from each other at different sides of the big one.
+ 
+----------------------------GEOMETRICAL CONFIGURATIONS (many balls)-------------
+
+Voronoi S-Region - a region of space whose points are closer to the surface of a
+given ball than to the surfaces of other balls of this system.
+
+General Properties of Voronoi S-Network:
+	1.Each site of Voronoi S-network is a center of an interstitial sphere
+	determining Delaunay S-simplex in the given system of balls.
+	2. Exactly four bonds converge in each site of Voronoi S-network.
+	3. Each bond of the Voronoi S-network is a fairway on the way between
+	 the neighboring sites.
+
+----------------------------REPRESENTATION-----------------------------------------------------
+
+Coordinates of the sites of the network are recorded in an 2D array
+		D(1 to 3; 1 to nD)
+		
+An integer array is required for recording the connectivity of
+the network sites (also 2D array)
+		DD(1 to 4; 1 to nD):
+		
+For every site we should record
+numbers of four corresponding balls
+		DA(1 to 4; 1 to nD)
+
+
+
+
+
+
+
