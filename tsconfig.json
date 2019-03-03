@@ -1,6 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "strict": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -12,11 +15,19 @@
     "importHelpers": true,
     "target": "es5",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "@types"
     ],
     "lib": [
       "es2018",
       "dom"
-    ]
-  }
+    ],
+    "paths": {
+      "utils": ["src/utils"],
+      "utils/*": ["src/utils/*"],
+      "types": ["src/types"],
+      "types/*": ["src/types/*"]
+    }
+  },
+  "include": ["src", "@types"]
 }
