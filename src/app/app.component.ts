@@ -65,7 +65,7 @@ export class AppComponent {
 
   private addSpheres() {
     const spheres = generateSpheres3dWithGrid({
-      gridStep: 1, space: {lenx: 50, leny: 50, lenz: 50}, sphereRadii: [3], maxTryCount: 10,
+      gridStep: 1, space: {lenx: 100, leny: 100, lenz: 100}, sphereRadii: [3], maxTryCount: 10,
     })
 
     const geometry = new SphereBufferGeometry(5, 32, 32)
