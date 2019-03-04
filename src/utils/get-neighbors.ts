@@ -4,8 +4,8 @@ import {
   OctreeLeaf,
 } from 'd3-octree'
 import {Point} from 'types'
-import {sphereContains} from 'utils'
 import {cubeOverlapsSphere} from './cube-overlaps-sphere'
+import {sphereContains} from './sphere-contains'
 
 type Args = {
   eps: number;

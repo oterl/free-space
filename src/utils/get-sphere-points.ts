@@ -1,7 +1,7 @@
 import {Sphere} from 'types'
-import {sphereContainsC} from 'utils'
-import {addPointsC} from 'utils/add-points'
-import {getPointGrid} from 'utils/get-point-grid'
+import {addPointsC} from './add-points'
+import {getPointGrid} from './get-point-grid'
+import {sphereContainsC} from './sphere-contains'
 
 export const getSpherePoints = (sphere: Sphere, gridStep: number) => {
   const d = sphere.r + sphere.r

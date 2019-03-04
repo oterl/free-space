@@ -1,6 +1,6 @@
 import {Point} from 'types'
-import {multiplyPoint} from 'utils'
-import {addPoints} from 'utils/add-points'
+import {addPoints} from './add-points'
+import {multiplyPoint} from './multiply-point'
 
 export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Point) => {
   const half = 0.5

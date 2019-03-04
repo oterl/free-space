@@ -5,14 +5,12 @@ import {
   Space3d,
   Sphere,
 } from 'types'
-import {
-  pointToString,
-  randomFromMap,
-  sphereOverlapsC,
-} from 'utils'
-import {getSpherePoints} from 'utils/get-sphere-points'
 import {getPointGrid} from './get-point-grid'
+import {getSpherePoints} from './get-sphere-points'
+import {pointToString} from './point-to-string'
 import {randomFromArray} from './random-from-array'
+import {randomFromMap} from './random-from-map'
+import {sphereOverlapsC} from './sphere-overlaps'
 
 type Args = {
   sphereRadii: number[];
@@ -37,15 +35,15 @@ export const generateSpheres3dWithGrid = (args: Args): Sphere[] => {
   const randomRadius = () => randomFromArray(sphereRadii)
   const randomFromAvailable = () => randomFromMap(availableMap)
   const checkAvailable = () => Boolean(Rkeys(availableMap).length)
-  const checkMaxCount = () => maxCount && (resultSpheres.length < maxCount)
-  const checkFailed = () => failedCount < maxTryCount
+  const checkMaxCount = () => maxCount ? (resultSpheres.length <= maxCount) : true
+  const checkFailed = () => failedCount <= maxTryCount
   // endregion
 
   while (checkAvailable() && checkMaxCount() && checkFailed()) {
     // Generate random sphere considering available points
     const sphere: Sphere = {coord: randomFromAvailable(), r: randomRadius()}
 
-    if (!resultSpheres.some(sphereOverlapsC(sphere))) {
+    if (resultSpheres.some(sphereOverlapsC(sphere))) {
       failedCount++
       continue
     }

@@ -3,7 +3,7 @@ import {
   Point,
   Sphere,
 } from 'types'
-import {sphereOverlaps} from 'utils'
+import {sphereOverlaps} from './sphere-overlaps'
 
 export const sphereContains = (s: Sphere, coord: Point) => sphereOverlaps(s, {coord, r: 0})
 
