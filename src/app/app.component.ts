@@ -4,20 +4,31 @@ import {
   HostListener,
   ViewChild,
 } from '@angular/core'
+import RindexBy from 'ramda/es/indexBy'
 import {
   Mesh,
   MeshBasicMaterial,
   PCFSoftShadowMap,
   PerspectiveCamera,
   PointLight,
+  Points,
   Scene,
   SphereBufferGeometry,
   Vector3,
   WebGLRenderer,
 } from 'three'
-import {OrbitControls} from 'three-orbitcontrols-ts'
-import {Udf} from 'types'
-import {generateSpheres3dWithGrid} from 'utils'
+import OrbitControls from 'three-orbitcontrols'
+import {
+  Space3d,
+  Udf,
+} from 'types'
+import {
+  generateNonOverlappingSpheres,
+  pointToString,
+} from 'utils'
+import {dbScan} from 'utils/db-scan'
+import {getPointGrid} from 'utils/get-point-grid'
+import {getVoidPoints} from 'utils/get-void-points'
 
 @Component({
   selector: 'app-root',
@@ -52,30 +63,55 @@ export class AppComponent {
     this.createScene()
     this.createLight()
     this.createCamera()
-    this.addControls()
 
     // region TODO TEST ONLY
-    this.addSpheres()
+    this.addObjects()
     // endregion
 
     this.startRendering()
+    this.addControls()
   }
 
   render = () => {this.renderer!.render(this.scene!, this.camera!)}
 
-  private addSpheres() {
-    const spheres = generateSpheres3dWithGrid({
-      gridStep: 1, space: {lenx: 100, leny: 100, lenz: 100}, sphereRadii: [3], maxTryCount: 10,
-    })
+  private addObjects() {
+    const space: Space3d = {lenx: 10, leny: 10, lenz: 10}
+    const sphereRadius = 1
+    const maxTryCount = 100
+    const pointSize = 0.1
 
-    const geometry = new SphereBufferGeometry(5, 32, 32)
-    const material = new MeshBasicMaterial({color: 0x000, opacity: 0.5, transparent: true})
-
+    // region Add Spheres
+    const spheres = generateNonOverlappingSpheres({space, sphereRadii: [sphereRadius], maxTryCount})
+    const sphereGeometry = new SphereBufferGeometry(sphereRadius, 32, 32)
+    const sphereMaterial = new MeshBasicMaterial({color: 0x000, opacity: 0.5, transparent: true})
     for (const sphere of spheres) {
-      const obj = new Mesh(geometry, material)
+      const obj = new Mesh(sphereGeometry, sphereMaterial)
       obj.position.set(sphere.coord.x, sphere.coord.y, sphere.coord.z)
       this.scene!.add(obj)
     }
+    // endregion
+
+    // region Add Void points
+    const gridStep = 1
+    const points = getPointGrid({gridStep, space})
+    const voidPoints = getVoidPoints({gridStep, spheres, points})
+    const pointGeometry = new SphereBufferGeometry(pointSize, 5, 5)
+    const pointMaterial = new MeshBasicMaterial({color: 0xFF0000, opacity: 0.9, transparent: true})
+    for (const point of voidPoints) {
+      const obj = new Mesh(pointGeometry, pointMaterial)
+      obj.position.set(point.x, point.y, point.z)
+      this.scene!.add(obj)
+    }
+    // endregion
+
+    // region Db Scan
+    const eps = 3
+    const minPoints = 5
+
+    const clusters = dbScan({minPoints, eps, points: voidPoints})
+
+    console.log(clusters)
+    // endregion
   }
 
   private createScene() {this.scene = new Scene()}
@@ -137,7 +173,7 @@ export class AppComponent {
   addControls() {
     const zoomSpeed = 1.2
 
-    this.controls = new OrbitControls(this.camera!)
+    this.controls = new OrbitControls(this.camera!, this.renderer!.domElement)
     this.controls.rotateSpeed = 1.0
     this.controls.zoomSpeed = zoomSpeed
     this.controls.enableZoom = true

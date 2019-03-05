@@ -10,12 +10,11 @@ type Args = {
   sphereRadii: number[];
   space: Space3d;
   maxCount?: number;
-  gridStep: number;
   maxTryCount: number;
 }
 
-export const generateSpheres3dWithGrid = (args: Args): Sphere[] => {
-  const {sphereRadii, space, gridStep, maxCount, maxTryCount} = args
+export const generateNonOverlappingSpheres = (args: Args): Sphere[] => {
+  const {sphereRadii, space, maxCount, maxTryCount} = args
 
   // region State
   const resultSpheres: Sphere[] = []
@@ -32,12 +31,11 @@ export const generateSpheres3dWithGrid = (args: Args): Sphere[] => {
     // Generate random sphere considering available points
     const sphere: Sphere = {coord: getRandomPoint(space), r: randomRadius()}
 
-    if (resultSpheres.some(sphereOverlapsC(sphere))) {
-      failedCount++
-      continue
+    if (resultSpheres.some(sphereOverlapsC(sphere))) failedCount++
+    else {
+      resultSpheres.push(sphere)
+      failedCount = 0
     }
-
-    resultSpheres.push(sphere)
   }
 
   return resultSpheres

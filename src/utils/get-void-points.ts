@@ -1,7 +1,6 @@
 import Rchain from 'ramda/es/chain'
-import Romit from 'ramda/es/omit'
+import RindexBy from 'ramda/es/indexBy'
 import {
-  Dict,
   Point,
   Sphere,
 } from 'types'
@@ -10,12 +9,12 @@ import {getSpherePoints} from 'utils/get-sphere-points'
 
 type Args = {
   spheres: Sphere[];
-  pointMap: Dict<Point>;
+  points: Point[];
   gridStep: number;
 }
 
-// pointMap contains indexed points of space grid
-export const getVoidPoints = ({gridStep, pointMap, spheres}: Args) => {
-  const allSpheresPoints = Rchain(s => getSpherePoints(s, gridStep), spheres).map(pointToString)
-  return Romit(allSpheresPoints, pointMap)
+export const getVoidPoints = ({gridStep, points, spheres}: Args) => {
+  const allSpherePointsMap = RindexBy(pointToString, Rchain(s => getSpherePoints(s, gridStep), spheres))
+
+  return points.filter(p => !allSpherePointsMap[pointToString(p)])
 }

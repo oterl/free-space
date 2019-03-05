@@ -3,8 +3,8 @@ import {
   Point,
   Sphere,
 } from 'types'
-import {sphereOverlaps} from './sphere-overlaps'
+import {pointDistance} from './point-distance'
 
-export const sphereContains = (s: Sphere, coord: Point) => sphereOverlaps(s, {coord, r: 0})
+export const sphereContains = (s: Sphere, coord: Point) => pointDistance(s.coord, coord) <= s.r
 
 export const sphereContainsC = Rcurry(sphereContains)
