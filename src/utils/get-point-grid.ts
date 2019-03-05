@@ -19,7 +19,7 @@ export const getPointGrid = ({gridStep, space}: Args) => {
   for (let z = 0; z < numZ; z++)
     for (let y = 0; y < numY; y++)
       for (let x = 0; x < numX; x++)
-        result.push({x, y, z})
+        result.push({x: x * gridStep, y: y * gridStep, z: z * gridStep})
 
   return result
 }

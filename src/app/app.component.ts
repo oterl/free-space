@@ -29,6 +29,7 @@ import {
 import {dbScan} from 'utils/db-scan'
 import {getPointGrid} from 'utils/get-point-grid'
 import {getVoidPoints} from 'utils/get-void-points'
+import {randomColor} from 'utils/random-color'
 
 @Component({
   selector: 'app-root',
@@ -76,7 +77,7 @@ export class AppComponent {
 
   private addObjects() {
     const space: Space3d = {lenx: 10, leny: 10, lenz: 10}
-    const sphereRadius = 1
+    const sphereRadius = 2
     const maxTryCount = 100
     const pointSize = 0.1
 
@@ -95,22 +96,23 @@ export class AppComponent {
     const gridStep = 1
     const points = getPointGrid({gridStep, space})
     const voidPoints = getVoidPoints({gridStep, spheres, points})
+
     const pointGeometry = new SphereBufferGeometry(pointSize, 5, 5)
-    const pointMaterial = new MeshBasicMaterial({color: 0xFF0000, opacity: 0.9, transparent: true})
-    for (const point of voidPoints) {
-      const obj = new Mesh(pointGeometry, pointMaterial)
-      obj.position.set(point.x, point.y, point.z)
-      this.scene!.add(obj)
-    }
     // endregion
 
     // region Db Scan
-    const eps = 3
-    const minPoints = 5
+    const eps = 2
+    const minPoints = 30
 
     const clusters = dbScan({minPoints, eps, points: voidPoints})
-
-    console.log(clusters)
+    for (const [clusterCenter, clusterPoints] of clusters) {
+      const pointMaterial = new MeshBasicMaterial({color: randomColor(), opacity: 0.9, transparent: true})
+      for (const point of clusterPoints) {
+        const obj = new Mesh(pointGeometry, pointMaterial)
+        obj.position.set(point.x, point.y, point.z)
+        this.scene!.add(obj)
+      }
+    }
     // endregion
   }
 
