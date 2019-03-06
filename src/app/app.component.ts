@@ -3,15 +3,14 @@ import {
   ElementRef,
   HostListener,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core'
-import RindexBy from 'ramda/es/indexBy'
 import {
   Mesh,
   MeshBasicMaterial,
   PCFSoftShadowMap,
   PerspectiveCamera,
   PointLight,
-  Points,
   Scene,
   SphereBufferGeometry,
   Vector3,
@@ -22,10 +21,7 @@ import {
   Space3d,
   Udf,
 } from 'types'
-import {
-  generateNonOverlappingSpheres,
-  pointToString,
-} from 'utils'
+import {generateNonOverlappingSpheres} from 'utils'
 import {dbScan} from 'utils/db-scan'
 import {getPointGrid} from 'utils/get-point-grid'
 import {getVoidPoints} from 'utils/get-void-points'
@@ -35,6 +31,7 @@ import {randomColor} from 'utils/random-color'
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
   private renderer: Udf<WebGLRenderer>

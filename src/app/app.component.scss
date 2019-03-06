@@ -1,9 +1,17 @@
-:host {
-  display: block;
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+// Local styles
+app-root {
+  display: flex;
+  flex-direction: column;
   height: 100%
+}
+
+.top-bar {
+  flex: 0 0 auto;
 }
 
 .canvas {
   width: 100%;
-  height: 100vh;
+  flex: 1 1 auto;
 }

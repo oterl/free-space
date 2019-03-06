@@ -1,0 +1,116 @@
+<form
+  [formGroup]="freeSpaceForm"
+  class="form">
+  <section class="left">
+    <h4>Space</h4>
+    <section class="form-group">
+      <mat-form-field class="form-field">
+        <input
+          formControlName="lenx"
+          placeholder="Length X"
+          matInput
+          required>
+          <mat-error *ngIf="freeSpaceForm.controls.lenx.invalid">
+            Length is invalid
+          </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <input
+          formControlName="leny"
+          placeholder="Length Y"
+          matInput
+          required>
+          <mat-error *ngIf="freeSpaceForm.controls.leny.invalid">
+            Length is invalid
+          </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <input
+          formControlName="lenx"
+          placeholder="Length Z"
+          matInput
+          required>
+          <mat-error *ngIf="freeSpaceForm.controls.lenz.invalid">
+            Length is invalid
+          </mat-error>
+      </mat-form-field>
+    </section>
+
+    <h4>Sphere generation</h4>
+    <section class="form-group">
+      <mat-form-field class="form-field">
+        <input
+          formControlName="size"
+          placeholder="Sphere size"
+          matInput
+          required>
+        <mat-error *ngIf="freeSpaceForm.controls.size.invalid">
+          Size is invalid
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <input
+          formControlName="maxTry"
+          placeholder="Max try"
+          matInput
+          required>
+        <mat-error *ngIf="freeSpaceForm.controls.maxTry.invalid">
+          Value is invalid
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <input
+          formControlName="maxCount"
+          placeholder="Max sphere count"
+          matInput
+          required>
+        <mat-error *ngIf="freeSpaceForm.controls.maxCount.invalid">
+          Value is invalid
+        </mat-error>
+      </mat-form-field>
+    </section>
+  </section>
+
+  <section class="right">
+    <h4>Clustering (DBSCAN)</h4>
+    <section class="form-group">
+      <mat-form-field class="form-field">
+        <input
+          formControlName="size"
+          placeholder="step"
+          matInput
+          required>
+        <mat-error *ngIf="freeSpaceForm.controls.step.invalid">
+          Step is invalid
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <input
+          formControlName="maxTry"
+          placeholder="Max try"
+          matInput
+          required>
+        <mat-error *ngIf="freeSpaceForm.controls.eps.invalid">
+          Epsilon is invalid
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <input
+          formControlName="k"
+          placeholder="Min Neighbors"
+          matInput
+          required>
+        <mat-error *ngIf="freeSpaceForm.controls.maxCount.invalid">
+          Neighbor Count is invalid
+        </mat-error>
+      </mat-form-field>
+    </section>
+  </section>
+  <span class="close"></span>
+</form>
