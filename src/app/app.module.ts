@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core'
 import {ReactiveFormsModule} from '@angular/forms'
 import {
+  MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
 } from '@angular/material'
@@ -18,6 +19,7 @@ import {TopBarComponent} from './top-bar.component'
   imports: [
     BrowserAnimationsModule,
     MatInputModule,
+    MatButtonModule,
     MatFormFieldModule,
     BrowserModule,
     AppRoutingModule,

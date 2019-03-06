@@ -6,6 +6,7 @@
     <section class="form-group">
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="lenx"
           placeholder="Length X"
           matInput
@@ -17,6 +18,7 @@
 
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="leny"
           placeholder="Length Y"
           matInput
@@ -28,6 +30,7 @@
 
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="lenx"
           placeholder="Length Z"
           matInput
@@ -42,6 +45,7 @@
     <section class="form-group">
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="size"
           placeholder="Sphere size"
           matInput
@@ -53,6 +57,7 @@
 
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="maxTry"
           placeholder="Max try"
           matInput
@@ -64,6 +69,7 @@
 
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="maxCount"
           placeholder="Max sphere count"
           matInput
@@ -80,6 +86,7 @@
     <section class="form-group">
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="size"
           placeholder="step"
           matInput
@@ -91,8 +98,9 @@
 
       <mat-form-field class="form-field">
         <input
-          formControlName="maxTry"
-          placeholder="Max try"
+          type="number"
+          formControlName="eps"
+          placeholder="Epsilon"
           matInput
           required>
         <mat-error *ngIf="freeSpaceForm.controls.eps.invalid">
@@ -102,6 +110,7 @@
 
       <mat-form-field class="form-field">
         <input
+          type="number"
           formControlName="k"
           placeholder="Min Neighbors"
           matInput
@@ -111,6 +120,16 @@
         </mat-error>
       </mat-form-field>
     </section>
+
+    <div class="buttons">
+      <button
+        (click)="onApplyClick()"
+        mat-stroked-button color="primary">Apply</button>
+      <button
+        (click)="onResetClick()"
+        mat-stroked-button color="warn">Reset to defaults</button>
+    </div>
+
   </section>
   <span class="close"></span>
 </form>

@@ -46,3 +46,12 @@ $input-min-width: 4rem;
 }
 
 .form-field {flex: 1 1 0}
+
+.buttons {
+  button:first-child {margin-right: $offset}
+
+  display: flex;
+  padding: $offset;
+  justify-content: center;
+}
+

@@ -26,6 +26,10 @@ import {dbScan} from 'utils/db-scan'
 import {getPointGrid} from 'utils/get-point-grid'
 import {getVoidPoints} from 'utils/get-void-points'
 import {randomColor} from 'utils/random-color'
+import {
+  Config,
+  initialConfig,
+} from './initial-config'
 
 @Component({
   selector: 'app-root',
@@ -41,6 +45,7 @@ export class AppComponent {
 
   controls: Udf<OrbitControls>
 
+  @ViewChild('test') private test: Udf<ElementRef>
   @ViewChild('canvas') private canvasRef: Udf<ElementRef>
 
   @HostListener('window:resize', ['$event']) onResize(event: Event) {
@@ -63,7 +68,7 @@ export class AppComponent {
     this.createCamera()
 
     // region TODO TEST ONLY
-    this.addObjects()
+    this.addObjects(initialConfig)
     // endregion
 
     this.startRendering()
@@ -72,14 +77,26 @@ export class AppComponent {
 
   render = () => {this.renderer!.render(this.scene!, this.camera!)}
 
-  private addObjects() {
-    const space: Space3d = {lenx: 10, leny: 10, lenz: 10}
-    const sphereRadius = 2
-    const maxTryCount = 100
+  clearScene(obj: any) {
+    while (obj.children.length > 0) {
+      this.clearScene(obj.children[0])
+      obj.remove(obj.children[0])
+    }
+    if (obj.geometry) obj.geometry.dispose()
+    if (obj.material) obj.material.dispose()
+    if (obj.texture) obj.texture.dispose()
+  }
+
+  private addObjects(config: Config) {
+    this.clearScene(this.scene!)
+
+    const space: Space3d = {lenx: config.lenx, leny: config.leny, lenz: config.lenz}
+    const sphereRadius = config.size
+    const maxTryCount = config.maxTry
     const pointSize = 0.1
 
     // region Add Spheres
-    const spheres = generateNonOverlappingSpheres({space, sphereRadii: [sphereRadius], maxTryCount})
+    const spheres = generateNonOverlappingSpheres({space, sphereRadii: [sphereRadius], maxTryCount, maxCount: config.maxCount})
     const sphereGeometry = new SphereBufferGeometry(sphereRadius, 32, 32)
     const sphereMaterial = new MeshBasicMaterial({color: 0x000, opacity: 0.5, transparent: true})
     for (const sphere of spheres) {
@@ -90,7 +107,7 @@ export class AppComponent {
     // endregion
 
     // region Add Void points
-    const gridStep = 1
+    const gridStep = config.step
     const points = getPointGrid({gridStep, space})
     const voidPoints = getVoidPoints({gridStep, spheres, points})
 
@@ -98,8 +115,8 @@ export class AppComponent {
     // endregion
 
     // region Db Scan
-    const eps = 2
-    const minPoints = 30
+    const eps = config.eps
+    const minPoints = config.k
 
     const clusters = dbScan({minPoints, eps, points: voidPoints})
     for (const [clusterCenter, clusterPoints] of clusters) {
@@ -175,8 +192,11 @@ export class AppComponent {
     this.controls = new OrbitControls(this.camera!, this.renderer!.domElement)
     this.controls.rotateSpeed = 1.0
     this.controls.zoomSpeed = zoomSpeed
-    this.controls.enableZoom = true
-    // TODO: maybe outside angular
     this.controls.addEventListener('change', this.render)
+  }
+
+  onConfigChange(config: Config) {
+    this.addObjects(config)
+    this.render()
   }
 }
