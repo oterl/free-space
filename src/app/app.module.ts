@@ -10,6 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {AppRoutingModule} from './app-routing.module'
 import {AppComponent} from './app.component'
 import {TopBarComponent} from './top-bar.component'
+import {MatExpansionModule} from '@angular/material/expansion'
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {TopBarComponent} from './top-bar.component'
   ],
   imports: [
     BrowserAnimationsModule,
+    MatExpansionModule,
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,

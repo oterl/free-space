@@ -4,9 +4,9 @@ $border: 1px solid #cccccc;
 $input-min-width: 4rem;
 
 :host {
-  padding: $offset;
+  position: fixed;
+  top: 0;
   width: 100vw;
-  border-bottom: $border;
 }
 
 .form {

@@ -2,7 +2,7 @@ const initialSpace = 10
 const initialMaxTry = 100
 const initialStep = 1
 const initialEps = 2
-const initialK = 20
+const initialK = 30
 const initialSphereSize = 2
 const initialMaxSphereCount = 1000
 
