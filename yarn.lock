@@ -1898,10 +1898,10 @@ cyclist@~0.2.2:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
 
-d3-octree@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/d3-octree/-/d3-octree-0.1.4.tgz#c3d6daf84f6b78fb11b38623e53b393e3a9276b0"
-  integrity sha512-FAvYzxYZtOjFJjsUUJMESGj4W6BF4QwqagwEJr+wUWm/gTWXtI+SDiz8wefBPxs6/PHaxvxgD8k6QXkOQcMlrg==
+d3-octree@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/d3-octree/-/d3-octree-0.1.2.tgz#37bf919df79e661eda5865921eb6ca7f03897fcc"
+  integrity sha1-N7+RnfeeZh7aWGWSHrbKfwOJf8w=
 
 dashdash@^1.12.0:
   version "1.14.1"

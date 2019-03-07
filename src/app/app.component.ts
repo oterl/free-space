@@ -109,8 +109,7 @@ export class AppComponent {
     // region Add Void points
     const gridStep = config.step
     const points = getPointGrid({gridStep, space})
-    const voidPoints = getVoidPoints({gridStep, spheres, points})
-
+    const voidPoints = getVoidPoints({spheres, points})
     const pointGeometry = new SphereBufferGeometry(pointSize, 5, 5)
     // endregion
 

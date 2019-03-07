@@ -1,20 +1,26 @@
+import {octree} from 'd3-octree'
 import Rchain from 'ramda/es/chain'
 import RindexBy from 'ramda/es/indexBy'
+import Rprop from 'ramda/es/prop'
 import {
   Point,
   Sphere,
 } from 'types'
-import {pointToString} from 'utils'
-import {getSpherePoints} from 'utils/get-sphere-points'
+import {
+  getNeighbors,
+  pointToString,
+} from 'utils'
 
 type Args = {
   spheres: Sphere[];
   points: Point[];
-  gridStep: number;
 }
 
-export const getVoidPoints = ({gridStep, points, spheres}: Args) => {
-  const allSpherePointsMap = RindexBy(pointToString, Rchain(s => getSpherePoints(s, gridStep), spheres))
+export const getVoidPoints = ({points, spheres}: Args) => {
+  const tree = octree(points, Rprop('x'), Rprop('y'), Rprop('z'))
 
-  return points.filter(p => !allSpherePointsMap[pointToString(p)])
+  const spherePoints = Rchain(s => getNeighbors({tree, eps: s.r, point: s.coord}), spheres)
+  const spherePointMap = RindexBy(pointToString, spherePoints)
+
+  return points.filter(p => !spherePointMap[pointToString(p)])
 }

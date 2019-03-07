@@ -23,7 +23,7 @@ export const generateNonOverlappingSpheres = (args: Args): Sphere[] => {
 
   // region Utils
   const randomRadius = () => randomFromArray(sphereRadii)
-  const checkMaxCount = () => maxCount ? (resultSpheres.length <= maxCount) : true
+  const checkMaxCount = () => maxCount ? (resultSpheres.length <= maxCount - 1) : true
   const checkFailed = () => failedCount <= maxTryCount
   // endregion
 

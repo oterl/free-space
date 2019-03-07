@@ -93,8 +93,8 @@
         <mat-form-field class="form-field">
           <input
             type="number"
-            formControlName="size"
-            placeholder="step"
+            formControlName="step"
+            placeholder="Grid Step"
             matInput
             required>
           <mat-error *ngIf="freeSpaceForm.controls.step.invalid">
@@ -121,7 +121,7 @@
             placeholder="Min Neighbors"
             matInput
             required>
-          <mat-error *ngIf="freeSpaceForm.controls.maxCount.invalid">
+          <mat-error *ngIf="freeSpaceForm.controls.k.invalid">
             Neighbor Count is invalid
           </mat-error>
         </mat-form-field>

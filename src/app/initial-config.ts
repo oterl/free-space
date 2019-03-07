@@ -1,10 +1,10 @@
-const initialSpace = 10
+const initialSpace = 20
 const initialMaxTry = 100
 const initialStep = 1
-const initialEps = 2
-const initialK = 30
+const initialEps = 1
+const initialK = 3
 const initialSphereSize = 2
-const initialMaxSphereCount = 1000
+const initialMaxSphereCount = 100
 
 export const initialConfig = {
   lenx: initialSpace,
