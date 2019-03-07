@@ -6,8 +6,6 @@ import {addPoints} from './add-points'
 import {multiplyPoint} from './multiply-point'
 import {sphereContainsC} from './sphere-contains'
 
-// TODO: Test this
-// Maybe visually by randomly drawing a cube and sphere
 export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Point) => {
   const half = 0.5
   const cubeHalf = (upper.x - lower.x) * half
@@ -20,11 +18,10 @@ export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Poi
   const dimensions: Dimension[] = ['x', 'y', 'z']
   const otherDimensions = (from: Dimension) => dimensions.filter(d => d !== from)
 
-  const condition1 = dimensions.every(
-    dimension =>
-      (cSphere[dimension] >= -cubeHalf - r) &&
-      (cSphere[dimension] <= cubeHalf + r) &&
-      otherDimensions(dimension).every(otherD => (cSphere[otherD] >= -cubeHalf) && (cSphere[otherD] <= cubeHalf)),
+  const condition1 = dimensions.some(
+    dimension => (cSphere[dimension] >= -cubeHalf - r) &&
+        (cSphere[dimension] <= cubeHalf + r) &&
+        otherDimensions(dimension).every(otherD => (cSphere[otherD] >= -cubeHalf) && (cSphere[otherD] <= cubeHalf)),
   )
 
   const cubeVertexes: Point[] = [
