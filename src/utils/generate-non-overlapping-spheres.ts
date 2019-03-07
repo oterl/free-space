@@ -2,9 +2,9 @@ import {
   Space3d,
   Sphere,
 } from 'types'
+import {sphereOverlaps} from 'utils/sphere-overlaps'
 import {getRandomPoint} from './get-random-point'
 import {randomFromArray} from './random-from-array'
-import {sphereOverlapsC} from './sphere-overlaps'
 
 type Args = {
   sphereRadii: number[];
@@ -31,7 +31,7 @@ export const generateNonOverlappingSpheres = (args: Args): Sphere[] => {
     // Generate random sphere considering available points
     const sphere: Sphere = {coord: getRandomPoint(space), r: randomRadius()}
 
-    if (resultSpheres.some(sphereOverlapsC(sphere))) failedCount++
+    if (resultSpheres.some(s => sphereOverlaps(sphere, s))) failedCount++
     else {
       resultSpheres.push(sphere)
       failedCount = 0

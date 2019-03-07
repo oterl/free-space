@@ -1,10 +1,11 @@
 import {
+  Dict,
   Dimension,
   Point,
 } from 'types'
 import {addPoints} from './add-points'
 import {multiplyPoint} from './multiply-point'
-import {sphereContainsC} from './sphere-contains'
+import {sphereContains} from './sphere-contains'
 
 export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Point) => {
   const half = 0.5
@@ -16,12 +17,16 @@ export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Poi
   const cSphere = addPoints(c, cubeCenterMinus)
 
   const dimensions: Dimension[] = ['x', 'y', 'z']
-  const otherDimensions = (from: Dimension) => dimensions.filter(d => d !== from)
+  const otherDimensions: Dict<Dimension[]> = {
+    x: ['y', 'z'],
+    y: ['x', 'z'],
+    z: ['x', 'y'],
+  }
 
   const condition1 = dimensions.some(
     dimension => (cSphere[dimension] >= -cubeHalf - r) &&
-        (cSphere[dimension] <= cubeHalf + r) &&
-        otherDimensions(dimension).every(otherD => (cSphere[otherD] >= -cubeHalf) && (cSphere[otherD] <= cubeHalf)),
+                 (cSphere[dimension] <= cubeHalf + r) &&
+                 otherDimensions[dimension].every(otherD => (cSphere[otherD] >= -cubeHalf) && (cSphere[otherD] <= cubeHalf)),
   )
 
   const cubeVertexes: Point[] = [
@@ -35,7 +40,7 @@ export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Poi
     {x: -cubeHalf, y: -cubeHalf, z: -cubeHalf},
   ]
 
-  const condition2 = cubeVertexes.some(sphereContainsC({coord: cSphere, r}))
+  const condition2 = cubeVertexes.some(s => sphereContains({coord: cSphere, r}, s))
 
   return condition1 || condition2
 }
