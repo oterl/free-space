@@ -97,7 +97,7 @@ export class AppComponent {
 
     // region Add Spheres
     const spheres = generateNonOverlappingSpheres({space, sphereRadii: [sphereRadius], maxTryCount, maxCount: config.maxCount})
-    const sphereGeometry = new SphereBufferGeometry(sphereRadius, 32, 32)
+    const sphereGeometry = new SphereBufferGeometry(sphereRadius, 16, 16)
     const sphereMaterial = new MeshBasicMaterial({color: 0x000, opacity: 0.5, transparent: true})
     for (const sphere of spheres) {
       const obj = new Mesh(sphereGeometry, sphereMaterial)
@@ -110,7 +110,7 @@ export class AppComponent {
     const gridStep = config.step
     const points = getPointGrid({gridStep, space})
     const voidPoints = getVoidPoints({spheres, points})
-    const pointGeometry = new SphereBufferGeometry(pointSize, 5, 5)
+    const pointGeometry = new SphereBufferGeometry(pointSize, 3, 3)
     // endregion
 
     // region Db Scan

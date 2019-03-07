@@ -24,9 +24,10 @@ export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Poi
   }
 
   const condition1 = dimensions.some(
-    dimension => (cSphere[dimension] >= -cubeHalf - r) &&
-                 (cSphere[dimension] <= cubeHalf + r) &&
-                 otherDimensions[dimension].every(otherD => (cSphere[otherD] >= -cubeHalf) && (cSphere[otherD] <= cubeHalf)),
+    dimension =>
+      (cSphere[dimension] >= -cubeHalf - r) &&
+      (cSphere[dimension] <= cubeHalf + r) &&
+      otherDimensions[dimension].every(otherD => (cSphere[otherD] >= -cubeHalf) && (cSphere[otherD] <= cubeHalf)),
   )
 
   const cubeVertexes: Point[] = [

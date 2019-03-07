@@ -23,9 +23,7 @@ export const getNeighbors = ({tree, eps, point}: Args) => {
   const result: Point[] = []
 
   tree.visit((node, x0, y0, z0, x1, y1, z1) => {
-    if (!cubeOverlapsSphere({x: x0, y: y0, z: z0}, {x: x1, y: y1, z: z1}, eps, point)) {
-      return true
-    }
+    if (!cubeOverlapsSphere({x: x0, y: y0, z: z0}, {x: x1, y: y1, z: z1}, eps, point)) return true
 
     if (isLeaf(node)) {
       let testPoint: Udf<Point> = node.data
