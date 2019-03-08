@@ -19,5 +19,3 @@ export const initialConfig = {
   eps: initialEps,
   k: initialK,
 }
-
-export type Config = typeof initialConfig

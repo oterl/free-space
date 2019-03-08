@@ -3,12 +3,6 @@ $offset: 1rem;
 $border: 1px solid #cccccc;
 $input-min-width: 4rem;
 
-:host {
-  position: fixed;
-  top: 0;
-  width: 100vw;
-}
-
 .form {
   display: flex;
   position: relative;

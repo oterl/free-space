@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "s": "ng serve",
-    "build": "ng build",
+    "b": "ng build",
+    "b-w": "ng run free-space:build-worker",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

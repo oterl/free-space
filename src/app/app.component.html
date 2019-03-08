@@ -1,4 +1,13 @@
-<top-bar
-  (configChange)="onConfigChange($event)"
-  class="top-bar"></top-bar>
+<div class="panels">
+  <config-panel
+    (configChange)="onConfigChange($event)"
+    class="top-bar">
+  </config-panel>
+  <results-panel
+    [clusters]="clusters"
+    [colorMap]="colorMap">
+  </results-panel>
+</div>
+
 <canvas class="canvas" #canvas></canvas>
+<loading-spinner *ngIf="isProcessing"></loading-spinner>

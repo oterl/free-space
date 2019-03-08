@@ -4,20 +4,26 @@ import {
   MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
+  MatTableModule,
 } from '@angular/material'
+import {MatExpansionModule} from '@angular/material/expansion'
 import {BrowserModule} from '@angular/platform-browser'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {AppRoutingModule} from './app-routing.module'
 import {AppComponent} from './app.component'
-import {TopBarComponent} from './top-bar.component'
-import {MatExpansionModule} from '@angular/material/expansion'
+import {ConfigPanelComponent} from './config-panel.component'
+import {LoadingSpinnerComponent} from './loading-spinner.component'
+import {ResultsPanelComponent} from './results-panel.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    TopBarComponent,
+    ConfigPanelComponent,
+    LoadingSpinnerComponent,
+    ResultsPanelComponent,
   ],
   imports: [
+    MatTableModule,
     BrowserAnimationsModule,
     MatExpansionModule,
     MatInputModule,

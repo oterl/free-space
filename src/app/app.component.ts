@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -6,30 +7,30 @@ import {
   ViewEncapsulation,
 } from '@angular/core'
 import {
+  Geometry,
   Mesh,
   MeshBasicMaterial,
+  Object3D,
   PCFSoftShadowMap,
   PerspectiveCamera,
-  PointLight,
+  Points,
+  PointsMaterial,
   Scene,
   SphereBufferGeometry,
-  Vector3,
   WebGLRenderer,
 } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 import {
-  Space3d,
+  Point,
+  Sphere,
   Udf,
 } from 'types'
-import {generateNonOverlappingSpheres} from 'utils'
-import {dbScan} from 'utils/db-scan'
-import {getPointGrid} from 'utils/get-point-grid'
-import {getVoidPoints} from 'utils/get-void-points'
 import {randomColor} from 'utils/random-color'
-import {
-  Config,
-  initialConfig,
-} from './initial-config'
+import {pointToVector3} from 'utils/three'
+import {DbscanConfig} from './dbscan-config'
+import {DbscanService} from './dbscan.service'
+import {initialConfig} from './initial-config'
+import {renderingConfig} from './rendering-config'
 
 @Component({
   selector: 'app-root',
@@ -37,15 +38,16 @@ import {
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   private renderer: Udf<WebGLRenderer>
   private camera: Udf<PerspectiveCamera>
-  private cameraTarget: Udf<Vector3>
   scene: Udf<Scene>
 
+  colorMap = new Map<Point, string>()
+  clusters: Udf<Map<Point, Point[]>>
   controls: Udf<OrbitControls>
+  isProcessing = true
 
-  @ViewChild('test') private test: Udf<ElementRef>
   @ViewChild('canvas') private canvasRef: Udf<ElementRef>
 
   @HostListener('window:resize', ['$event']) onResize(event: Event) {
@@ -62,89 +64,84 @@ export class AppComponent {
 
   get canvas(): HTMLCanvasElement {return this.canvasRef && this.canvasRef.nativeElement}
 
+  constructor(private dbScanService: DbscanService) {
+    this.dbScanService.result$.subscribe(({spheres, clusters}) => {
+      this.clusters = clusters
+      this.drawSpheres(spheres)
+      this.drawClusters(clusters)
+      this.render()
+      this.isProcessing = false
+    })
+  }
+
   ngAfterViewInit() {
     this.createScene()
-    this.createLight()
     this.createCamera()
-
-    // region TODO TEST ONLY
-    this.addObjects(initialConfig)
-    // endregion
-
     this.startRendering()
     this.addControls()
+    this.dbScanService.run(initialConfig)
   }
 
   render = () => {this.renderer!.render(this.scene!, this.camera!)}
 
-  clearScene(obj: any) {
-    while (obj.children.length > 0) {
-      this.clearScene(obj.children[0])
-      obj.remove(obj.children[0])
-    }
-    if (obj.geometry) obj.geometry.dispose()
-    if (obj.material) obj.material.dispose()
-    if (obj.texture) obj.texture.dispose()
+  // region Draw spheres
+  private drawnSpheres: Object3D[] = []
+  private sphereMaterial = new MeshBasicMaterial({color: 0x000, opacity: 0.5, transparent: true})
+  private removeSpheres() {
+    if (this.drawnSpheres.length)
+      for (const obj of this.drawnSpheres)
+        this.scene!.remove(obj)
+    this.drawnSpheres = []
   }
+  private drawSpheres(spheres: Sphere[]) {
+    this.removeSpheres()
 
-  private addObjects(config: Config) {
-    this.clearScene(this.scene!)
-
-    const space: Space3d = {lenx: config.lenx, leny: config.leny, lenz: config.lenz}
-    const sphereRadius = config.size
-    const maxTryCount = config.maxTry
-    const pointSize = 0.1
-
-    // region Add Spheres
-    const spheres = generateNonOverlappingSpheres({space, sphereRadii: [sphereRadius], maxTryCount, maxCount: config.maxCount})
-    const sphereGeometry = new SphereBufferGeometry(sphereRadius, 16, 16)
-    const sphereMaterial = new MeshBasicMaterial({color: 0x000, opacity: 0.5, transparent: true})
     for (const sphere of spheres) {
-      const obj = new Mesh(sphereGeometry, sphereMaterial)
+      const sphereGeometry = new SphereBufferGeometry(
+        sphere.r, renderingConfig.sphereSegments, renderingConfig.sphereSegments)
+      const obj = new Mesh(sphereGeometry, this.sphereMaterial)
+      this.drawnSpheres.push(obj)
       obj.position.set(sphere.coord.x, sphere.coord.y, sphere.coord.z)
       this.scene!.add(obj)
     }
-    // endregion
-
-    // region Add Void points
-    const gridStep = config.step
-    const points = getPointGrid({gridStep, space})
-    const voidPoints = getVoidPoints({spheres, points})
-    const pointGeometry = new SphereBufferGeometry(pointSize, 3, 3)
-    // endregion
-
-    // region Db Scan
-    const eps = config.eps
-    const minPoints = config.k
-
-    const clusters = dbScan({minPoints, eps, points: voidPoints})
-    for (const [clusterCenter, clusterPoints] of clusters) {
-      const pointMaterial = new MeshBasicMaterial({color: randomColor(), opacity: 0.9, transparent: true})
-      for (const point of clusterPoints) {
-        const obj = new Mesh(pointGeometry, pointMaterial)
-        obj.position.set(point.x, point.y, point.z)
-        this.scene!.add(obj)
-      }
-    }
-    // endregion
   }
+  // endregion
+
+  // region Draw clusters
+  private drawnClusters: Object3D[] = []
+  private removeClusters() {
+    if (this.drawnClusters.length)
+      for (const obj of this.drawnClusters)
+        this.scene!.remove(obj)
+
+    this.drawnClusters = []
+  }
+  private drawClusters(clusters: Map<Point, Point[]>) {
+    this.removeClusters()
+
+    this.colorMap.clear()
+
+    for (const [clusterCenter, clusterPoints] of clusters) {
+      const color = randomColor()
+      this.colorMap.set(clusterCenter, color)
+
+      const pointMaterial = new PointsMaterial({
+        size: 0.3,
+        transparent: true,
+        opacity: renderingConfig.pointOpacity,
+        color,
+      })
+
+      const pointGeometry = new Geometry()
+      pointGeometry.vertices.push(...clusterPoints.map(pointToVector3))
+      const pointsObj = new Points(pointGeometry, pointMaterial)
+      this.scene!.add(pointsObj)
+      this.drawnClusters.push(pointsObj)
+    }
+  }
+  // endregion
 
   private createScene() {this.scene = new Scene()}
-
-  private createLight() {
-    const lightColor = 0xffffff
-    const lightDistance = 1000
-    const lightIntensity = 1000
-    const lightCoordZ = 100
-
-    const light1 = new PointLight(lightColor, lightIntensity, lightDistance)
-    light1.position.set(0, 0, lightCoordZ)
-    this.scene!.add(light1)
-
-    const light2 = new PointLight(lightColor, lightIntensity, lightDistance)
-    light2.position.set(0, 0, -lightCoordZ)
-    this.scene!.add(light2)
-  }
 
   private createCamera() {
     const fieldOfView = 60
@@ -194,8 +191,8 @@ export class AppComponent {
     this.controls.addEventListener('change', this.render)
   }
 
-  onConfigChange(config: Config) {
-    this.addObjects(config)
-    this.render()
+  onConfigChange(config: DbscanConfig) {
+    this.dbScanService.run(config)
+    this.isProcessing = true
   }
 }

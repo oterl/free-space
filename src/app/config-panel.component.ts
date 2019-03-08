@@ -12,11 +12,11 @@ import {Udf} from 'types'
 import {initialConfig} from './initial-config'
 
 @Component({
-  selector: 'top-bar',
-  styleUrls: ['./top-bar.component.scss'],
-  templateUrl: 'top-bar.component.html',
+  selector: 'config-panel',
+  styleUrls: ['./config-panel.component.scss'],
+  templateUrl: 'config-panel.component.html',
 })
-export class TopBarComponent {
+export class ConfigPanelComponent {
   @Output() configChange = new EventEmitter()
 
   freeSpaceForm: FormGroup
