@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core'
+import {defaultDbscanConfig} from 'const'
 import {
   Geometry,
   Mesh,
@@ -21,15 +22,14 @@ import {
 } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 import {
+  DbscanConfig,
   Point,
   Sphere,
   Udf,
 } from 'types'
-import {randomColor} from 'utils/random-color'
+import {randomColor} from 'utils'
 import {pointToVector3} from 'utils/three'
-import {DbscanConfig} from './dbscan-config'
 import {DbscanService} from './dbscan.service'
-import {initialConfig} from './initial-config'
 import {renderingConfig} from './rendering-config'
 
 @Component({
@@ -79,7 +79,7 @@ export class AppComponent implements AfterViewInit {
     this.createCamera()
     this.startRendering()
     this.addControls()
-    this.dbScanService.run(initialConfig)
+    this.dbScanService.run(defaultDbscanConfig)
   }
 
   render = () => {this.renderer!.render(this.scene!, this.camera!)}

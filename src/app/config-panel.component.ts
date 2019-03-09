@@ -8,8 +8,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms'
-import {Udf} from 'types'
-import {initialConfig} from './initial-config'
+import {defaultDbscanConfig} from 'const'
 
 @Component({
   selector: 'config-panel',
@@ -37,12 +36,12 @@ export class ConfigPanelComponent {
       k: [0, Validators.required],
     })
 
-    this.freeSpaceForm.setValue(initialConfig)
+    this.freeSpaceForm.setValue(defaultDbscanConfig)
   }
 
   onApplyClick() {this.configChange.emit(this.freeSpaceForm.value)}
   onResetClick() {
-    this.freeSpaceForm.setValue(initialConfig)
+    this.freeSpaceForm.setValue(defaultDbscanConfig)
     this.configChange.emit(this.freeSpaceForm.value)
   }
 }

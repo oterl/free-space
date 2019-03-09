@@ -3,6 +3,7 @@ import Rprop from 'ramda/es/prop'
 import RsplitEvery from 'ramda/es/splitEvery'
 import {
   CorePoints,
+  DbscanConfig,
   Point,
   Space3d,
 } from 'types'
@@ -13,7 +14,6 @@ import {
 } from 'utils'
 import {getPointGrid} from 'utils/get-point-grid'
 import {getVoidPoints} from 'utils/get-void-points'
-import {DbscanConfig} from '../app/dbscan-config'
 
 const defaultConcurrency = 4
 const coreFinderScriptPath = '/assets/workers/dbscan-core-finder.js'

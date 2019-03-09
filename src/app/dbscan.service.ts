@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core'
 import {Subject} from 'rxjs'
-import {Point} from 'types'
-import {Sphere} from 'types/sphere'
-import {DbscanConfig} from './dbscan-config'
+import {
+  DbscanConfig,
+  Point,
+  Sphere,
+} from 'types'
 
 const pathToWorker = 'assets/workers/dbscan.js'
 

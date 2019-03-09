@@ -6,7 +6,7 @@ const initialK = 114
 const initialSphereSize = 2
 const initialMaxSphereCount = 100
 
-export const initialConfig = {
+export const defaultDbscanConfig = {
   lenx: initialSpace,
   leny: initialSpace,
   lenz: initialSpace,

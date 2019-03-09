@@ -26,7 +26,9 @@
       "utils": ["src/utils"],
       "utils/*": ["src/utils/*"],
       "types": ["src/types"],
-      "types/*": ["src/types/*"]
+      "types/*": ["src/types/*"],
+      "const": ["src/const"],
+      "const/*": ["src/const/*"]
     }
   },
   "include": ["src", "@types"]
