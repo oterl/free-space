@@ -5,7 +5,7 @@
     "ng": "ng",
     "s": "ng serve",
     "b": "ng build",
-    "b-w": "ng run free-space:build-worker",
+    "b-w": "ng run free-space:build-workers",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

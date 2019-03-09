@@ -160,7 +160,6 @@
       ]
     },
     "linebreak-style": [true, "LF"],
-    "max-classes-per-file": [true, 1, "exclude-class-expressions"],
     "max-file-line-count": [true, 300],
     "max-line-length": [true, {"limit": 120, "ignore-pattern": "^import |^export {(.*?)}|loadChildren"}],
     "no-default-export": true,

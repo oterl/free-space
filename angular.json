@@ -60,7 +60,7 @@
             }
           }
         },
-        "build-worker": {
+        "build-workers": {
           "builder": "@angular-devkit/build-webpack:webpack",
           "options": {
             "webpackConfig": "./webpack-worker-config.js"

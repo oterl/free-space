@@ -1,20 +1,14 @@
-import {octree} from 'd3-octree'
-import Rprop from 'ramda/es/prop'
-import {Point} from 'types'
-import {findCorePoints} from './find-core-points'
+import {
+  CorePoints,
+  Point,
+} from 'types'
 
-type Args = {
-  eps: number;
-  points: Point[];
-  minPoints: number;
-}
+type Args = {corePoints: CorePoints}
 
-export const dbScan = ({eps, minPoints, points}: Args) => {
-  const tree = octree(points, Rprop('x'), Rprop('y'), Rprop('z'))
+export const dbScan = ({corePoints}: Args) => {
   const visited = new Set<Point>()
   const clusters = new Map<Point, Point[]>()
 
-  const corePoints = findCorePoints({points, eps, minPoints, tree})
   const isCore = (point: Point) => corePoints.has(point)
   const isNotVisited = (point: Point) => !visited.has(point)
 

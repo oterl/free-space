@@ -20,9 +20,8 @@ module.exports = {
     ]
   },
   'entry': {
-    './src/assets/workers/main': [
-      './src/worker/dbscan.worker.ts'
-    ]
+    './src/assets/workers/dbscan': ['./src/worker/dbscan.worker.ts'],
+    './src/assets/workers/dbscan-core-finder': ['./src/worker/dbscan-core-finder.worker.ts']
   },
   'output': {
     'path': process.cwd(),
@@ -52,9 +51,6 @@ module.exports = {
   'plugins': [
     new NoEmitOnErrorsPlugin(),
     new ProgressPlugin(),
-    new AngularCompilerPlugin({
-      'tsConfigPath': './tsconfig.worker.json',
-      'entryModule': './src/worker/dbscan.worker.ts'
-    })
+    new AngularCompilerPlugin({'tsConfigPath': './tsconfig.worker.json'})
   ]
 };

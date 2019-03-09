@@ -4,7 +4,7 @@ import {Point} from 'types'
 import {Sphere} from 'types/sphere'
 import {DbscanConfig} from './dbscan-config'
 
-const pathToWorker = 'assets/workers/main.js'
+const pathToWorker = 'assets/workers/dbscan.js'
 
 @Injectable({providedIn: 'root'})
 export class DbscanService {

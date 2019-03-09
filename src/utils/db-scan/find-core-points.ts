@@ -1,16 +1,19 @@
 import {Octree} from 'd3-octree'
-import {Point} from 'types'
+import {
+  CorePoints,
+  Point,
+} from 'types'
 import {getNeighbors} from '../get-neighbors'
 
-type Args = {
+export type FindCorePointsArgs = {
   tree: Octree<Point>;
   points: Point[];
   eps: number;
   minPoints: number;
 }
 
-export const findCorePoints = ({points, eps, minPoints, tree}: Args) => {
-  const result: Map<Point, Point[]> = new Map
+export const findCorePoints = ({points, eps, minPoints, tree}: FindCorePointsArgs) => {
+  const result: CorePoints = new Map
 
   for (const point of points) {
     const neighbors = getNeighbors({point, eps, tree})
