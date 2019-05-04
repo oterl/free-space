@@ -1,14 +1,26 @@
-import {Octree} from 'd3-octree'
-import {Point} from 'types'
-import {findCorePoints} from 'utils'
+import {
+  Point,
+  SerializedTree,
+} from 'types'
+import {
+  deserializeTree,
+  findCorePoints,
+} from 'utils'
 
 type Args = {
-  tree: Octree<Point>;
+  tree: SerializedTree;
   points: Point[];
   eps: number;
   minPoints: number;
 }
 
 self.onmessage = ({data}: {data: Args}) => {
-  postMessage(findCorePoints(data), undefined as any)
+  postMessage(
+    findCorePoints({
+      eps: data.eps,
+      minPoints: data.minPoints,
+      points: data.points,
+      tree: deserializeTree(data.tree)}),
+    undefined as any,
+  )
 }

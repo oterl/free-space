@@ -4,7 +4,7 @@ const { AngularCompilerPlugin } = require('@ngtools/webpack');
 
 module.exports = {
   'mode': 'production',
-  'devtool': 'none',
+  'devtool': 'source-map',
   'resolve': {
     'extensions': [
       '.ts',

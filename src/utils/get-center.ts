@@ -1,7 +1,8 @@
 import {Point} from 'types'
-import {addPoints} from 'utils/add-points'
-import {multiplyPoint} from 'utils/multiply-point'
+import {addPoints} from './add-points'
+import {createPoint} from './create-point'
+import {multiplyPoint} from './multiply-point'
 
 export const getCenter = (points: Point[]): Point => points.length === 0
-  ? {z: 0, x: 0, y: 0}
+  ? createPoint(0, 0, 0)
   : multiplyPoint(1 / points.length, points.reduce(addPoints))

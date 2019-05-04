@@ -1,3 +1,3 @@
-import {Point} from 'types/point'
+import {Point} from './point'
 
-export type CorePoints = Map<Point, Point[]>
+export type CorePoints = {[pointId: number]: {core: Point; neighbors: Point[]}}

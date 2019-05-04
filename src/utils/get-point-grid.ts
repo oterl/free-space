@@ -2,6 +2,7 @@ import {
   Point,
   Space3d,
 } from 'types'
+import {createPoint} from './create-point'
 
 type Args = {
   gridStep: number;
@@ -19,7 +20,7 @@ export const getPointGrid = ({gridStep, space}: Args) => {
   for (let z = 0; z < numZ; z++)
     for (let y = 0; y < numY; y++)
       for (let x = 0; x < numX; x++)
-        result.push({x: x * gridStep, y: y * gridStep, z: z * gridStep})
+        result.push(createPoint(x * gridStep, y * gridStep, z * gridStep))
 
   return result
 }

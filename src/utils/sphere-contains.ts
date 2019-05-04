@@ -1,7 +1,7 @@
 import {
-  Point,
+  SimplePoint,
   Sphere,
 } from 'types'
 import {pointDistance} from './point-distance'
 
-export const sphereContains = (s: Sphere, coord: Point) => pointDistance(s.coord, coord) <= s.r
+export const sphereContains = (s: Sphere, coord: SimplePoint) => pointDistance(s.coord, coord) <= s.r

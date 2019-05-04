@@ -1,3 +1,5 @@
 import {Point} from 'types'
+import {createPoint} from './create-point'
 
-export const multiplyPoint = (n: number, p: Point): Point => ({x: p.x * n, y: p.y * n, z: p.z * n})
+export const multiplyPoint = (n: number, p: Point): Point =>
+  createPoint(p.x * n, p.y * n, p.z * n)

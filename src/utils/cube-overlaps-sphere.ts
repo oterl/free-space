@@ -1,20 +1,20 @@
 import {
   Dict,
   Dimension,
-  Point,
+  SimplePoint,
 } from 'types'
-import {addPoints} from './add-points'
-import {multiplyPoint} from './multiply-point'
+import {addSimplePoints} from './add-simple-points'
+import {multiplySimplePoint} from './multiply-simple-point'
 import {sphereContains} from './sphere-contains'
 
-export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Point) => {
+export const cubeOverlapsSphere = (lower: SimplePoint, upper: SimplePoint, r: number, c: SimplePoint) => {
   const half = 0.5
   const cubeHalf = (upper.x - lower.x) * half
-  const cubeCenter = multiplyPoint(half, addPoints(lower, upper))
-  const cubeCenterMinus = multiplyPoint(-1, cubeCenter)
+  const cubeCenter = multiplySimplePoint(half, addSimplePoints(lower, upper))
+  const cubeCenterMinus = multiplySimplePoint(-1, cubeCenter)
 
   // Go to coordinate system in the center of cube
-  const cSphere = addPoints(c, cubeCenterMinus)
+  const cSphere = addSimplePoints(c, cubeCenterMinus)
 
   const dimensions: Dimension[] = ['x', 'y', 'z']
   const otherDimensions: Dict<Dimension[]> = {
@@ -30,7 +30,7 @@ export const cubeOverlapsSphere = (lower: Point, upper: Point, r: number, c: Poi
       otherDimensions[dimension].every(otherD => (cSphere[otherD] >= -cubeHalf) && (cSphere[otherD] <= cubeHalf)),
   )
 
-  const cubeVertexes: Point[] = [
+  const cubeVertexes: SimplePoint[] = [
     {x: cubeHalf, y: cubeHalf, z: cubeHalf},
     {x: cubeHalf, y: cubeHalf, z: -cubeHalf},
     {x: cubeHalf, y: -cubeHalf, z: cubeHalf},

@@ -6,10 +6,8 @@ import {
   Point,
   Sphere,
 } from 'types'
-import {
-  getNeighbors,
-  pointToString,
-} from 'utils'
+import {getNeighbors} from './get-neighbors'
+import {pointToString} from './point-to-string'
 
 type Args = {
   spheres: Sphere[];

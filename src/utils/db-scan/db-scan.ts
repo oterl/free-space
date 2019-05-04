@@ -1,30 +1,34 @@
+import Rkeys from 'ramda/es/keys'
 import {
   CorePoints,
+  Dict,
   Point,
 } from 'types'
 
-type Args = {corePoints: CorePoints}
-
-export const dbScan = ({corePoints}: Args) => {
-  const visited = new Set<Point>()
+export const dbScan = (corePoints: CorePoints) => {
+  const visited: Dict<boolean> = {}
   const clusters = new Map<Point, Point[]>()
 
-  const isCore = (point: Point) => corePoints.has(point)
-  const isNotVisited = (point: Point) => !visited.has(point)
+  const isCore = (point: Point) => corePoints[point.id]
+  const isVisited = (point: Point) => visited[point.id]
+  const isNotVisited = (point: Point) => !visited[point.id]
+  const addToVisited = (point: Point) => visited[point.id] = true
 
-  const expandCore = (core: Point, cluster: Point[]) => {
-    const neighbors = corePoints.get(core)!.filter(isNotVisited)
-    for (const neighbor of neighbors) visited.add(neighbor)
+  const expandCore = (corePointId: number, cluster: Point[]) => {
+    const neighbors = corePoints[corePointId].neighbors!.filter(isNotVisited)
+    for (const neighbor of neighbors) addToVisited(neighbor)
     cluster.push(...neighbors)
     const neighborCores = neighbors.filter(isCore)
-    for (const neighborCore of neighborCores) expandCore(neighborCore, cluster)
+    for (const neighborCore of neighborCores)
+      expandCore(neighborCore.id, cluster)
   }
 
-  for (const corePoint of corePoints.keys()) {
-    if (visited.has(corePoint)) continue
-    visited.add(corePoint)
+  for (const corePointId of Rkeys(corePoints)) {
+    const corePoint = corePoints[corePointId].core
+    if (isVisited(corePoint)) continue
+    addToVisited(corePoint)
     const cluster = [corePoint]
-    expandCore(corePoint, cluster)
+    expandCore(corePointId, cluster)
     clusters.set(corePoint, cluster)
   }
 

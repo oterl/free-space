@@ -44,6 +44,15 @@ declare module 'd3-octree' {
   }
 
   export interface Octree<TDatum> {
+    // region Internal members
+    _x0: number
+    _y0: number
+    _z0: number
+    _x1: number
+    _y1: number
+    _z1: number
+    _root: OctreeInternalNode<TDatum>
+    // endregion
     /**
      * Returns the current x-accessor, which defaults to: `x(d) => d[0]`.
      */

@@ -1,6 +1,6 @@
-import {Point} from 'types'
+import {SimplePoint} from 'types'
 
 export type Sphere = {
-  coord: Point;
+  coord: SimplePoint;
   r: number;
 }
