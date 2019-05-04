@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start": "node server.js",
-    "heroku-postbuild": "ng run free-space:build-worker && ng build --prod"
+    "heroku-postbuild": "ng run free-space:build-workers && ng build --prod"
   },
   "private": true,
   "dependencies": {
