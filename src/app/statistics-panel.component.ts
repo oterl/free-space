@@ -25,7 +25,7 @@ export class StatisticsPanelComponent implements OnChanges {
     sphereCount: 'Sphere Count:',
     sphereVolume: 'Volume of Spheres:',
     voidPoints: 'Void Points:',
-    numberOfClusteredPoints: 'Number of Clustered Points;',
+    numberOfClusteredPoints: 'Number of Clustered Points:',
   }
 
   fields: Array<{key: string; value: number}> = []

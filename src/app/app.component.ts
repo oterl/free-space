@@ -158,7 +158,7 @@ export class AppComponent implements AfterViewInit {
   private drawClusters(clusters: Map<Point, Point[]>) {
     this.removeClusters()
 
-    this.colorMap.clear()
+    this.colorMap = new Map<Point, string>()
 
     for (const [clusterCenter, clusterPoints] of clusters) {
       const color = randomColor()
