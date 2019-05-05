@@ -3,6 +3,7 @@
 // Local styles
 app-root {
   display: flex;
+  position: relative;
   flex-direction: column;
   height: 100%;
 }
@@ -17,7 +18,8 @@ app-root {
 }
 
 .panels {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100vw;
+  max-height: 100vh;
 }

@@ -16,3 +16,8 @@
 .number-cell {
   width: 20%;
 }
+
+.table-container {
+  max-height: 400px;
+  overflow-y: auto;
+}

@@ -11,6 +11,12 @@ import {
 } from 'types'
 import {getCenter} from 'utils'
 
+type ClusterData = {
+  pointCount: number;
+  center: Point;
+  color: string;
+}
+
 @Component({
   selector: 'results-panel',
   styleUrls: ['./results-panel.component.scss'],
@@ -21,7 +27,7 @@ export class ResultsPanelComponent implements OnChanges {
   @Input() clusters: Udf<Map<Point, Point[]>>
 
   displayedColumns: string[] = ['number', 'color', 'count', 'center']
-  data: Array<{pointCount: number; center: Point; color: string}> = []
+  data: Array<ClusterData> = []
 
   get resultCount() {return this.clusters && this.clusters.size}
 
