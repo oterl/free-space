@@ -14,6 +14,7 @@ import {AppComponent} from './app.component'
 import {ConfigPanelComponent} from './config-panel.component'
 import {LoadingSpinnerComponent} from './loading-spinner.component'
 import {ResultsPanelComponent} from './results-panel.component'
+import {StatisticsPanelComponent} from './statistics-panel.component'
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {ResultsPanelComponent} from './results-panel.component'
     ConfigPanelComponent,
     LoadingSpinnerComponent,
     ResultsPanelComponent,
+    StatisticsPanelComponent,
   ],
   imports: [
     MatTableModule,

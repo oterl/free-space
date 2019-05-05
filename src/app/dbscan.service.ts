@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core'
 import {Subject} from 'rxjs'
 import {
+  ClusteringResult,
   DbscanConfig,
-  Point,
-  Sphere,
 } from 'types'
 
 const pathToWorker = 'assets/workers/dbscan.js'
 
 @Injectable({providedIn: 'root'})
 export class DbscanService {
-  result$ = new Subject<{clusters: Map<Point, Point[]>; spheres: Sphere[]}>()
+  result$ = new Subject<ClusteringResult>()
   private worker: Worker
 
   constructor() {

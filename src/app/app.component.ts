@@ -18,6 +18,7 @@ import {
   PointsMaterial,
   Scene,
   SphereBufferGeometry,
+  Vector3,
   WebGLRenderer,
 } from 'three'
 import OrbitControls from 'three-orbitcontrols'
@@ -25,9 +26,11 @@ import {
   DbscanConfig,
   Point,
   Sphere,
+  Statistics,
   Udf,
 } from 'types'
 import {randomColor} from 'utils'
+import {sphereVolume} from 'utils/sphere-volume'
 import {pointToVector3} from 'utils/three'
 import {DbscanService} from './dbscan.service'
 import {renderingConfig} from './rendering-config'
@@ -46,7 +49,16 @@ export class AppComponent implements AfterViewInit {
   colorMap = new Map<Point, string>()
   clusters: Udf<Map<Point, Point[]>>
   controls: Udf<OrbitControls>
-  isProcessing = true
+  processingStart: Udf<DOMHighResTimeStamp>
+  statistics: Statistics = {
+    computationTime: 0,
+    numberOfPoints: 0,
+    spaceVolume: 0,
+    sphereCount: 0,
+    sphereVolume: 0,
+    voidPoints: 0,
+    numberOfClusteredPoints: 0,
+  }
 
   @ViewChild('canvas') private canvasRef: Udf<ElementRef>
 
@@ -65,12 +77,30 @@ export class AppComponent implements AfterViewInit {
   get canvas(): HTMLCanvasElement {return this.canvasRef && this.canvasRef.nativeElement}
 
   constructor(private dbScanService: DbscanService) {
-    this.dbScanService.result$.subscribe(({spheres, clusters}) => {
+    this.dbScanService.result$.subscribe(({spheres, clusters, numberOfPoints, numberOfVoidPoints, spaceVolume}) => {
       this.clusters = clusters
       this.drawSpheres(spheres)
       this.drawClusters(clusters)
       this.render()
-      this.isProcessing = false
+
+      let numberOfClusteredPoints = 0
+
+      for (const [clusterCenter, clusterPoints] of clusters)
+        numberOfClusteredPoints += clusterPoints.length
+
+      this.statistics = {
+        ...this.statistics,
+        numberOfPoints,
+        spaceVolume,
+        voidPoints: numberOfVoidPoints,
+        sphereCount: spheres.length,
+        numberOfClusteredPoints,
+        sphereVolume: spheres.length ? spheres.length * sphereVolume(spheres[0]) : 0,
+        // tslint:disable-next-line:no-magic-numbers
+        computationTime: +((performance.now() - this.processingStart!) / 1000).toFixed(2),
+      }
+
+      this.processingStart = undefined
     })
   }
 
@@ -79,7 +109,10 @@ export class AppComponent implements AfterViewInit {
     this.createCamera()
     this.startRendering()
     this.addControls()
+
+    this.processingStart = performance.now()
     this.dbScanService.run(defaultDbscanConfig)
+    this.controls!.target = new Vector3(defaultDbscanConfig.lenx / 2, defaultDbscanConfig.leny / 2, defaultDbscanConfig.lenz / 2)
   }
 
   render = () => {this.renderer!.render(this.scene!, this.camera!)}
@@ -193,6 +226,7 @@ export class AppComponent implements AfterViewInit {
 
   onConfigChange(config: DbscanConfig) {
     this.dbScanService.run(config)
-    this.isProcessing = true
+    this.controls!.target = new Vector3(config.lenx / 2, config.leny / 2, config.lenz / 2)
+    this.processingStart = performance.now()
   }
 }

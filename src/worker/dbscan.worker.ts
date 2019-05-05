@@ -2,6 +2,7 @@ import {octree} from 'd3-octree'
 import Rprop from 'ramda/es/prop'
 import RsplitEvery from 'ramda/es/splitEvery'
 import {
+  ClusteringResult,
   CorePoints,
   DbscanConfig,
   Space3d,
@@ -47,5 +48,11 @@ self.onmessage = ({data}: {data: DbscanConfig}) => {
 
   const clusters$ = corePoints$.then(dbScan)
 
-  clusters$.then(clusters => postMessage({clusters, spheres}, undefined as any))
+  clusters$.then(clusters => postMessage({
+    clusters,
+    spheres,
+    numberOfPoints: points.length,
+    numberOfVoidPoints: voidPoints.length,
+    spaceVolume: data.lenx * data.leny * data.lenz,
+  } as ClusteringResult, undefined as any))
 }

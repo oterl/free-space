@@ -1,0 +1,19 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Statistics
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="statistics">
+    <div
+      *ngFor="let item of fields"
+      class="statistics__item">
+      <span class="mat-body-strong">{{item.key}}</span>
+      &nbsp;
+      <span>{{item.value}} </span>
+    </div>
+  </div>
+</mat-expansion-panel>
+
+
