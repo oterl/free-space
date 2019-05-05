@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core'
+import {MatSlideToggleChange} from '@angular/material'
 import {defaultDbscanConfig} from 'const'
 import {
   Geometry,
@@ -46,7 +47,11 @@ export class AppComponent implements AfterViewInit {
   private camera: Udf<PerspectiveCamera>
   scene: Udf<Scene>
 
+  displaySpheres = true
+  displayPoints = true
+
   colorMap = new Map<Point, string>()
+  spheres: Udf<Sphere[]>
   clusters: Udf<Map<Point, Point[]>>
   controls: Udf<OrbitControls>
   processingStart: Udf<DOMHighResTimeStamp>
@@ -79,8 +84,9 @@ export class AppComponent implements AfterViewInit {
   constructor(private dbScanService: DbscanService) {
     this.dbScanService.result$.subscribe(({spheres, clusters, numberOfPoints, numberOfVoidPoints, spaceVolume}) => {
       this.clusters = clusters
-      this.drawSpheres(spheres)
-      this.drawClusters(clusters)
+      this.spheres = spheres
+      if (this.displaySpheres) this.drawSpheres(spheres)
+      if (this.displayPoints) this.drawClusters(clusters)
       this.render()
 
       let numberOfClusteredPoints = 0
@@ -228,5 +234,19 @@ export class AppComponent implements AfterViewInit {
     this.dbScanService.run(config)
     this.controls!.target = new Vector3(config.lenx / 2, config.leny / 2, config.lenz / 2)
     this.processingStart = performance.now()
+  }
+
+  displaySpheresChange({checked}: MatSlideToggleChange) {
+    if (checked && this.spheres) this.drawSpheres(this.spheres)
+    else this.removeSpheres()
+    this.render()
+    this.displaySpheres = checked
+  }
+
+  displayPointsChange({checked}: MatSlideToggleChange) {
+    if (checked && this.clusters) this.drawClusters(this.clusters)
+    else this.removeClusters()
+    this.render()
+    this.displayPoints = checked
   }
 }

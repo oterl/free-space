@@ -4,6 +4,7 @@ import {
   MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSlideToggleModule,
   MatTableModule,
 } from '@angular/material'
 import {MatExpansionModule} from '@angular/material/expansion'
@@ -25,6 +26,7 @@ import {StatisticsPanelComponent} from './statistics-panel.component'
     StatisticsPanelComponent,
   ],
   imports: [
+    MatSlideToggleModule,
     MatTableModule,
     BrowserAnimationsModule,
     MatExpansionModule,

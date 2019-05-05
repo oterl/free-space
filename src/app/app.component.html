@@ -16,3 +16,22 @@
 
 <canvas class="canvas" #canvas></canvas>
 <loading-spinner *ngIf="processingStart"></loading-spinner>
+
+<div class="view-toggles">
+  <mat-slide-toggle
+    color="primary"
+    (change)="displaySpheresChange($event)"
+    [checked]="displaySpheres">
+    Spheres
+  </mat-slide-toggle>
+
+  <br>
+  <br>
+
+  <mat-slide-toggle
+    color="primary"
+    (change)="displayPointsChange($event)"
+    [checked]="displayPoints">
+    Points
+  </mat-slide-toggle>
+</div>
